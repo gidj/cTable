@@ -30,7 +30,7 @@ List list_new(int elementSize)
   return n;
 }
 
-void list_destroy(List *list)
+void list_free(List *list)
 {
   assert(list && *list);
   Node current;
