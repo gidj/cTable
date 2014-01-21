@@ -7,7 +7,7 @@
 typedef struct List *List;
 
 extern List list_new(int elementSize);
-extern void list_destroy(List *list);
+extern void list_free(List *list);
 extern size_t list_length(List list);
 
 extern void* list_append(List list, void *element);
