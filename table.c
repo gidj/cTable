@@ -42,6 +42,6 @@ Table table_new(int hint,
 /* TODO change the default functions for default_hash and default_cmp*/ 
   t->cmp = cmp ? cmp : default_cmp;
   t->hash = hash ? hash : default_hash;
-  t->dict = 
+  t->dict = array_new(t->size, sizeof(List));
 
 }
