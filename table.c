@@ -5,14 +5,17 @@
 #include <limits.h>
 #include <stdlib.h>
 
-struct dict_item {
+int default_cmp(const void*, const void*);
+unsigned default_hash(const void*);
+
+struct binding {
   const void *key;
   void *value;
 };
 
 struct Table {
   int length;
-  int size;
+  int num_elements;
   int (*cmp)(const void *x, const void *y);
   unsigned (*hash)(const void *key);
 
@@ -37,11 +40,28 @@ Table table_new(int hint,
   }
 
   t = malloc(sizeof(*t));
-  t->size = primes[i-1];
-  t->length = 0;
+  assert(t);
+  t->length = primes[i-1];
+  t->num_elements = 0;
 /* TODO change the default functions for default_hash and default_cmp*/ 
   t->cmp = cmp ? cmp : default_cmp;
   t->hash = hash ? hash : default_hash;
-  t->
+  t->dict = array_new(t->length, sizeof(List));
 
+  return t;
 }
+
+/* The default comparison function simply tests to see whether the two given
+ * pointers are equal when evaluated as integers. 
+ *
+ * TODO: include the Atom ADT */ 
+int default_cmp(const void *x, const void *y)
+{
+  return *(int*) x != *(int*) y;
+}
+
+unsigned default_hash(const void *key)
+{
+  return (unsigned long) key >> 2;
+}
+
